@@ -18,8 +18,8 @@
 Uint32 gameUpdate(Uint32 interval, void *param)
 {
 
-    // Game *state = static_cast<Game *>(param);
-    // state->update();
+    Game *state = static_cast<Game *>(param);
+    state->update();
     return interval;
 }
 
@@ -32,14 +32,14 @@ int main(int /*argc*/, char ** /*argv*/)
 
     // Create a new ui object
     Game game(map);
-    UI ui(map); // <-- use map from your game objects.
+    UI ui(game.getMap()); // <-- use map from your game objects.
 
     // Start timer for game update, call this function every 100 ms.
     SDL_TimerID timer_id =
-        SDL_AddTimer(100, gameUpdate, static_cast<void *>(nullptr));
+        SDL_AddTimer(100, gameUpdate, static_cast<void *>(&game));
 
     // Example object, this can be removed later
-    Pacman pacman(1, 1, PACMAN, DOWN);
+    Pacman *pacman = game.getPacman();
 
     // Call game init code here
 
@@ -65,20 +65,20 @@ int main(int /*argc*/, char ** /*argv*/)
                 switch (e.key.keysym.sym)
                 {
                 case SDLK_LEFT: // YOUR CODE HERE
-                    pacman.setDir(LEFT);
-                    pacman.move(&map);
+                    pacman->setDir(LEFT);
+
                     break;
                 case SDLK_RIGHT: // YOUR CODE HERE
-                    pacman.setDir(RIGHT);
-                    pacman.move(&map);
+                    pacman->setDir(RIGHT);
+
                     break;
                 case SDLK_UP: // YOUR CODE HERE
-                    pacman.setDir(UP);
-                    pacman.move(&map);
+                    pacman->setDir(UP);
+
                     break;
                 case SDLK_DOWN: // YOUR CODE HERE
-                    pacman.setDir(DOWN);
-                    pacman.move(&map);
+                    pacman->setDir(DOWN);
+
                     break;
                 case SDLK_ESCAPE:
                     quit = true;
@@ -94,7 +94,7 @@ int main(int /*argc*/, char ** /*argv*/)
         ui.setLives(3); // <-- Pass correct value to the setter
 
         // Render the scene
-        std::vector<Character> objects = {pacman};
+        std::vector<Character> objects = {*pacman};
         // ^-- Your code should provide this vector somehow (e.g.
         // game->getStructs())
         ui.update(objects);

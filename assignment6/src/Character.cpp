@@ -1,6 +1,6 @@
 #include "Character.hpp"
 #include <iostream>
-
+#include "Game.hpp"
 // Constructor for class
 Character::Character(int n_x, int n_y, Type n_type, Direction n_dir)
 {
@@ -12,35 +12,31 @@ Character::Character(int n_x, int n_y, Type n_type, Direction n_dir)
 // Checks around the current position, using direction of the object to determine if we can move in the given direction
 bool Character::isMoveColliding(const std::vector<std::vector<int>> *map) const
 {
-
-    // Checking our direction and looking at the map to see if the postiions are free
+    // Checking our direction and looking at the map to see if the positions are free
     switch (dir)
     {
-
-    // For UP and DOWN we can simply check, since we can not go over border on top and bottom
     case UP:
-        if ((*map)[y - 1][x] == 0)
+        if ((*map)[y - 1][x] != 1)
         {
             return false;
         }
         return true;
 
     case DOWN:
-        if ((*map)[y + 1][x] == 0)
+        if ((*map)[y + 1][x] != 1)
         {
             return false;
         }
         return true;
 
-    // For right and left, we have to be more careful, and also check over the border, depending on our position
     case RIGHT:
         if (x == (*map)[0].size() - 1)
-        { // If we get on the final, we are for guaranteed to be allowed to move right
+        { // If we get on the final, we are guaranteed to be allowed to move right
             return false;
         }
 
         // Normal checking on the map
-        if ((*map)[y][x + 1] == 0)
+        if ((*map)[y][x + 1] != 1)
         {
             return false;
         }
@@ -53,14 +49,15 @@ bool Character::isMoveColliding(const std::vector<std::vector<int>> *map) const
         }
 
         // Normal checking on the map
-        if ((*map)[y][x - 1] == 0)
+        if ((*map)[y][x - 1] != 1)
         {
             return false;
         }
         return true;
 
     default:
-        std::cout << "Error in handling direction. Direction is: " << dir << ", which resulted in error." << std::endl;
+        std::cout << "Error in handling direction. Direction is: " << dir
+                  << ", which resulted in error." << std::endl;
         return true;
     }
 }
@@ -85,6 +82,11 @@ void Character::move(std::vector<std::vector<int>> *map)
     switch (dir)
     {
     case UP:
+        if ((*map)[x][y - 1] == 2)
+        {
+            std::cout << "Dot here!" << std::endl;
+            Game::removeDot(x, y);
+        }
         setPosition(x, y - 1);
         break;
 

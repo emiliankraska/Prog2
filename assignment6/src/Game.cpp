@@ -14,9 +14,23 @@ void Game::addDots()
             if (map[i][j] == 0 && !(pacman.getPosition().x == i && pacman.getPosition().y == j))
             {
                 std::cout << "Adding Dot with values: x = " << i << " j: " << j << std::endl;
+                map[i][j] = 2;
                 objectList.push_back(new PointDot(j, i, Type::DOT, UP));
             }
         }
     }
     std::cout << "Added dots" << std::endl;
+}
+void Game::removeDot(int x, int y)
+{
+    for (auto it = objectList.begin(); it != objectList.end(); ++it)
+    {
+        if ((*it)->getType() == Type::DOT && (*it)->getPosition().x == x && (*it)->getPosition().y == y)
+        {
+            delete *it;           // Free memory if allocated dynamically
+            objectList.erase(it); // Remove from list
+            map[x][y] = 0;
+            break; // Stop after removing the dot
+        }
+    }
 }

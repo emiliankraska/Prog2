@@ -19,7 +19,7 @@ public:
 
     const std::vector<std::vector<int>> &getMap() const { return map; }
     void setMap(const std::vector<std::vector<int>> &newMap) { map = newMap; }
-
+    void removeDot(int x, int y);
     std::vector<GameObjectStruct *> &getObjectList() { return objectList; }
     void addObjectList(GameObjectStruct *nObject) { objectList.push_back(nObject); }
     void addDots();

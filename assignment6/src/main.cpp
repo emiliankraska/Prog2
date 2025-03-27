@@ -94,9 +94,17 @@ int main(int /*argc*/, char ** /*argv*/)
         ui.setLives(3); // <-- Pass correct value to the setter
 
         // Render the scene
-        std::vector<Character> objects = {*pacman};
-        // ^-- Your code should provide this vector somehow (e.g.
-        // game->getStructs())
+        // std::vector<GameObjectStruct&> objects = {*pacman};
+        // std::vector<GameObjectStruct *> objects = game.getObjectList();
+        //  ^-- Your code should provide this vector somehow (e.g.
+        //  game->getStructs())
+        std::vector<GameObjectStruct> objects;
+        for (auto *obj : game.getObjectList())
+        {
+            if (obj)                     // Check for null pointers
+                objects.push_back(*obj); // Dereference pointer and copy object
+        }
+
         ui.update(objects);
 
         while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout))

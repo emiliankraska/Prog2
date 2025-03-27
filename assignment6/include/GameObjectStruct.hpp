@@ -43,19 +43,6 @@ enum Direction
     LEFT,
     RIGHT
 };
-
-/// This represents an item that is drawn onto the screen.
-struct GameObjectStruct
-{
-    /// x-position of the item.
-    int x;
-    /// y-position of the item.
-    int y;
-    /// The appearance of the item (sprite set).
-    Type type;
-    /// The direction of the item (sprite selection).
-    Direction dir;
-};
 struct Point
 {
     int x;
@@ -68,4 +55,36 @@ struct Point
         y = n_y;
     };
 };
+/// This represents an item that is drawn onto the screen.
+struct GameObjectStruct
+{
+    /// x-position of the item.
+    int x;
+    /// y-position of the item.
+    int y;
+    /// The appearance of the item (sprite set).
+    Type type;
+    /// The direction of the item (sprite selection).
+    Direction dir;
+
+    // ✅ Setters
+    void setPosition(int newX, int newY)
+    {
+        x = newX;
+        y = newY;
+    }
+    void setPosition(Point p)
+    {
+        x = p.x;
+        y = p.y;
+    }
+    void setType(Type newType) { type = newType; }
+    void setDir(Direction newDir) { dir = newDir; }
+
+    // ✅ Getters
+    Point getPosition() const { return {x, y}; }
+    Type getType() const { return type; }
+    Direction getDir() const { return dir; }
+};
+
 #endif // SRC_GAMEOBJECTSTRUCT_H

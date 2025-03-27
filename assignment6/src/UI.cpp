@@ -1,7 +1,6 @@
 /// \file
 /// UI.cpp
 
-
 #include "UI.hpp"
 
 #include <iostream>
@@ -24,7 +23,7 @@ UI::~UI()
     SDL_Quit();
 }
 
-void UI::update(std::vector<Character> objects)
+void UI::update(std::vector<GameObjectStruct> objects)
 {
     // Clear the current renderer.
     SDL_RenderClear(renderer);
@@ -39,7 +38,8 @@ void UI::update(std::vector<Character> objects)
     drawLives();
 
     // Loop through all the objects and draw them.
-    for (auto &element : objects) {
+    for (auto &element : objects)
+    {
         SDL_Rect dst = {element.getPosition().x * TILESIZE, element.getPosition().y * TILESIZE, TILESIZE,
                         TILESIZE};
         SDL_RenderCopy(renderer, sheet, &clips[element.getType()][element.getDir()],
@@ -56,7 +56,8 @@ void UI::drawScore()
     int digit = 0;         // Digit to select
 
     // Loop through digits
-    while (digitSelector < 100000) {
+    while (digitSelector < 100000)
+    {
         // Destination rectangle
         SDL_Rect dst = {100 - digit * TILESIZE, 27 * TILESIZE, TILESIZE,
                         TILESIZE};
@@ -76,7 +77,8 @@ void UI::drawScore()
 // Draws an amount of pacmans corresponding to the amount of lives
 void UI::drawLives()
 {
-    for (int i = 0; i < lives; i++) {
+    for (int i = 0; i < lives; i++)
+    {
         SDL_Rect dst = {27 * TILESIZE - i * TILESIZE, 27 * TILESIZE, TILESIZE,
                         TILESIZE};
         SDL_RenderCopy(renderer, sheet, &clips[PACMAN][LEFT], &dst);
@@ -99,8 +101,7 @@ void UI::init()
                               27 * TILESIZE + (TILESIZE + 4), SDL_WINDOW_SHOWN);
 
     // Create a new renderer
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED |
-                                                  SDL_RENDERER_PRESENTVSYNC);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 }
 
 void UI::loadTextures()
@@ -227,7 +228,8 @@ void UI::loadMaps()
     wall[RIGHT] = wall[UP];
     clips[WALL] = wall;
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++)
+    {
         std::map<Direction, SDL_Rect> nr;
         nr[UP] = {o + (size / 2) * i, o + 1 + size * 0, size / 2, size / 2};
         nr[DOWN] = nr[UP];
@@ -240,9 +242,12 @@ void UI::loadMaps()
 void UI::drawBackground(std::vector<std::vector<int>> &map)
 {
     // Draw a wall on each position containing a one
-    for (size_t i = 0; i < map.size(); i++) {
-        for (size_t j = 0; j < map[i].size(); j++) {
-            if (map[i][j] == 1) {
+    for (size_t i = 0; i < map.size(); i++)
+    {
+        for (size_t j = 0; j < map[i].size(); j++)
+        {
+            if (map[i][j] == 1)
+            {
                 SDL_Rect dst = {static_cast<int>(j) * TILESIZE,
                                 static_cast<int>(i) * TILESIZE, TILESIZE,
                                 TILESIZE};
@@ -255,11 +260,13 @@ void UI::drawBackground(std::vector<std::vector<int>> &map)
 SDL_Texture *UI::loadTexture(const std::string &file)
 {
     SDL_Surface *surf = SDL_LoadBMP(file.c_str());
-    if (surf == nullptr) {
+    if (surf == nullptr)
+    {
         std::cerr << "Error while loading texture bitmap: " << SDL_GetError() << std::endl;
     }
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
-    if (texture == nullptr) {
+    if (texture == nullptr)
+    {
         std::cerr << "Error while creating texture: " << SDL_GetError() << std::endl;
     }
     SDL_FreeSurface(surf);

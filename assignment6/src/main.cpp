@@ -1,11 +1,11 @@
 /// \file
 /// main.cpp
 
-
 #include "UI.hpp"
 #include <SDL2/SDL.h>
 #include <vector>
 #include "pacman.hpp"
+#include "Game.hpp"
 
 /// Callback function to update the game state.
 ///
@@ -15,9 +15,11 @@
 /// should use mutexes to access shared data.
 /// Read the documentation of SDL_AddTimer for more information and for tips
 /// regarding multithreading issues.
-Uint32 gameUpdate(Uint32 interval, void * /*param*/)
+Uint32 gameUpdate(Uint32 interval, void *param)
 {
-    // Do game loop update here
+
+    // Game *state = static_cast<Game *>(param);
+    // state->update();
     return interval;
 }
 
@@ -25,10 +27,11 @@ Uint32 gameUpdate(Uint32 interval, void * /*param*/)
 int main(int /*argc*/, char ** /*argv*/)
 {
     std::vector<std::vector<int>> map = {{
-        #include "board.def"
+#include "board.def"
     }};
 
     // Create a new ui object
+    Game game(map);
     UI ui(map); // <-- use map from your game objects.
 
     // Start timer for game update, call this function every 100 ms.
@@ -36,27 +39,31 @@ int main(int /*argc*/, char ** /*argv*/)
         SDL_AddTimer(100, gameUpdate, static_cast<void *>(nullptr));
 
     // Example object, this can be removed later
-    Pacman pacman(1, 1, DOWN);
+    Pacman pacman(1, 1, PACMAN, DOWN);
 
     // Call game init code here
 
-
     bool quit = false;
-    while (!quit) {
+    while (!quit)
+    {
         // set timeout to limit frame rate
         Uint32 timeout = SDL_GetTicks() + 20;
 
         // Handle the input
         SDL_Event e;
-        while (SDL_PollEvent(&e)) {
+        while (SDL_PollEvent(&e))
+        {
             // Quit button.
-            if (e.type == SDL_QUIT) {
+            if (e.type == SDL_QUIT)
+            {
                 quit = true;
             }
 
             // All keydown events
-            if (e.type == SDL_KEYDOWN) {
-                switch (e.key.keysym.sym) {
+            if (e.type == SDL_KEYDOWN)
+            {
+                switch (e.key.keysym.sym)
+                {
                 case SDLK_LEFT: // YOUR CODE HERE
                     pacman.setDir(LEFT);
                     pacman.move(&map);
@@ -92,7 +99,8 @@ int main(int /*argc*/, char ** /*argv*/)
         // game->getStructs())
         ui.update(objects);
 
-        while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
+        while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout))
+        {
             // ... do work until timeout has elapsed
         }
     }

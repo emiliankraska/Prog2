@@ -4,6 +4,7 @@
 #include <vector>
 #include "GameObjectStruct.hpp"
 #include "Pacman.hpp"
+#include "PointDot.hpp"
 
 class Game
 {
@@ -21,7 +22,7 @@ public:
 
     std::vector<GameObjectStruct *> &getObjectList() { return objectList; }
     void addObjectList(GameObjectStruct *nObject) { objectList.push_back(nObject); }
-
+    void addDots();
     Pacman *getPacman() { return &pacman; } // Getter for Pacman
 
 private:

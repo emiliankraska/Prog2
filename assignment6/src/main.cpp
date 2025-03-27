@@ -6,6 +6,7 @@
 #include <vector>
 #include "pacman.hpp"
 #include "Game.hpp"
+#include <iostream>
 
 /// Callback function to update the game state.
 ///
@@ -36,14 +37,17 @@ int main(int /*argc*/, char ** /*argv*/)
 
     // Start timer for game update, call this function every 100 ms.
     SDL_TimerID timer_id =
-        SDL_AddTimer(100, gameUpdate, static_cast<void *>(&game));
+        SDL_AddTimer(1000, gameUpdate, static_cast<void *>(&game));
 
     // Example object, this can be removed later
+    game.addDots();
+    std::cout << "Reached 1" << std::endl;
     Pacman *pacman = game.getPacman();
 
     // Call game init code here
 
     bool quit = false;
+    std::cout << "Reached 2" << std::endl;
     while (!quit)
     {
         // set timeout to limit frame rate
@@ -98,11 +102,15 @@ int main(int /*argc*/, char ** /*argv*/)
         // std::vector<GameObjectStruct *> objects = game.getObjectList();
         //  ^-- Your code should provide this vector somehow (e.g.
         //  game->getStructs())
+        std::cout << "Reached 3" << std::endl;
         std::vector<GameObjectStruct> objects;
         for (auto *obj : game.getObjectList())
         {
-            if (obj)                     // Check for null pointers
-                objects.push_back(*obj); // Dereference pointer and copy object
+            if (obj)
+            {
+                std::cout << "Pushing object to update" << std::endl; // Check for null pointers
+                objects.push_back(*obj);                              // Dereference pointer and copy object
+            }
         }
 
         ui.update(objects);

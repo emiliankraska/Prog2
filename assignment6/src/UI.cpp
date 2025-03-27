@@ -38,12 +38,23 @@ void UI::update(std::vector<GameObjectStruct> objects)
     drawLives();
 
     // Loop through all the objects and draw them.
-    for (auto &element : objects)
+    for (const auto &element : objects)
     {
-        SDL_Rect dst = {element.getPosition().x * TILESIZE, element.getPosition().y * TILESIZE, TILESIZE,
-                        TILESIZE};
-        SDL_RenderCopy(renderer, sheet, &clips[element.getType()][element.getDir()],
-                       &dst);
+        if (element.getType() == DOT)
+        {
+            SDL_Rect dst = {element.getPosition().x * TILESIZE, element.getPosition().y * TILESIZE, TILESIZE, TILESIZE};
+            SDL_RenderCopy(renderer, sheet, &clips[element.getType()][element.getDir()], &dst);
+        }
+    }
+
+    // Then, render all other objects on top
+    for (const auto &element : objects)
+    {
+        if (element.getType() != DOT)
+        {
+            SDL_Rect dst = {element.getPosition().x * TILESIZE, element.getPosition().y * TILESIZE, TILESIZE, TILESIZE};
+            SDL_RenderCopy(renderer, sheet, &clips[element.getType()][element.getDir()], &dst);
+        }
     }
 
     // Update the screen.

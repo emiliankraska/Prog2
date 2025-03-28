@@ -1,7 +1,8 @@
 #include "Game.hpp"
 #include "PointDot.hpp"
 #include <iostream>
-
+#include <array>
+#include <algorithm>
 void Game::update()
 {
     generatePositionBuffers();
@@ -17,7 +18,6 @@ void Game::update()
         std::cout << "Ending game, no lives left" << std::endl;
         setQuit(true);
     }
-
 }
 void Game::printMap() const
 {
@@ -50,7 +50,7 @@ void Game::addDots()
             // && !(pacman.getPosition().x == i && pacman.getPosition().y == j)
             if (map[i][j] == 0 && !(pacman.getPosition().x == i && pacman.getPosition().y == j))
             {
-                //std::cout << "Adding Dot with values: x = " << i << " j: " << j << std::endl;
+                // std::cout << "Adding Dot with values: x = " << i << " j: " << j << std::endl;
                 map[i][j] = 2;
                 objectList.push_back(new PointDot(j, i, Type::DOT, UP));
             }
@@ -58,31 +58,56 @@ void Game::addDots()
     }
     std::cout << "Added dots" << std::endl;
 }
+bool Game::isDotOrFruit(Type type)
+{
+    return type == Type::DOT ||
+           std::find(std::begin(fruitTypes), std::end(fruitTypes), type) != std::end(fruitTypes);
+}
 void Game::removeDot(int x, int y)
 {
     for (auto it = objectList.begin(); it != objectList.end(); ++it)
     {
         // Check if it's a dot and matches the coordinates
-        if (((*it)->getType() == Type::DOT) && ((*it)->getPosition().x == x && (*it)->getPosition().y == y))
+        if ((*it)->getPosition().x == x && (*it)->getPosition().y == y && isDotOrFruit((*it)->getType()))
         {
-            //std::cout << "Dot found at (" << x << ", " << y << ")" << std::endl;
+            // std::cout << "Dot found at (" << x << ", " << y << ")" << std::endl;
 
             // Delete the object and erase from the list
             delete *it;           // Free memory if allocated dynamically
             objectList.erase(it); // Erase the element and update the iterator
             map[y][x] = 0;        // Clear the map
 
-            //std::cout << "Dot removed at (" << x << ", " << y << ")" << std::endl;
+            // std::cout << "Dot removed at (" << x << ", " << y << ")" << std::endl;
 
+            this->addToScore(dot_value);
             break; // Stop after removing the dot
         }
     }
 }
 
+int Game::getRandomInRange(int min, int max)
+{
+    return min + (std::rand() % (max - min + 1));
+}
+
+void Game::addFruit()
+{
+    while (1)
+    {
+        int x_pos = getRandomInRange(1, 25);
+        int y_pos = getRandomInRange(1, 25);
+        if (map[y_pos][x_pos] == 0)
+        {
+            map[y_pos][x_pos] = 2;
+            objectList.push_back(new PointDot(x_pos, y_pos, fruitTypes[getRandomInRange(0, 5)], UP));
+            break;
+        }
+    }
+}
 void Game::generatePositionBuffers()
 {
     std::vector<Point> temp;
-    
+
     for (auto it = objectList.begin(); it != objectList.end(); ++it)
     {
         if ((*it)->getType() == Type::BLINKY || (*it)->getType() == Type::PINKY || (*it)->getType() == Type::INKY || (*it)->getType() == Type::CLYDE)
@@ -103,14 +128,14 @@ void Game::checkColission()
         {
             continue;
         }
-            // We are in the buffer of the ghost, now we need to see if this specific ghost is in our buffer
+        // We are in the buffer of the ghost, now we need to see if this specific ghost is in our buffer
         for (auto ghostCurrent : objectList)
         {
             if (!(ghostCurrent->getType() == Type::BLINKY || ghostCurrent->getType() == Type::PINKY || ghostCurrent->getType() == Type::INKY || ghostCurrent->getType() == Type::CLYDE))
             {
                 continue;
             }
-            
+
             if (ghostCurrent->getPosition() == getPacmanPositionBuffer())
             {
                 deathReset();

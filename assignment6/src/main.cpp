@@ -53,11 +53,6 @@ int main(int /*argc*/, char ** /*argv*/)
 
     Pacman *pacman = game.getPacman();
 
-    Blinky blinky(12, 13, Direction::UP, pacman);
-    Pinky pinky(13, 13, Direction::UP, pacman);
-    Inky inky(14, 13, Direction::UP, pacman);
-    Clyde clyde(15, 13, Direction::UP, pacman);
-
     // SOME TESTING
 
     // Call game init code here

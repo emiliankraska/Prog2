@@ -177,5 +177,9 @@ void Character::move(Game *game)
     }
 
     setPositionFromDir((game->getMap())[0].size());
-    // updatePositionOnMap(&(game->getMap()), oldPosition);
+    if (game->getMap()[y][x] == 2)
+    {
+        game->removeDot(x, y);
+    }
+    updatePositionOnMap(&(game->getMap()), oldPosition);
 }

@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "PointDot.hpp"
 #include <iostream>
+
 void Game::update()
 {
     pacman.move(this);

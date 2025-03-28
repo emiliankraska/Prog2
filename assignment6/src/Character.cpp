@@ -177,5 +177,5 @@ void Character::move(Game *game)
     }
 
     setPositionFromDir((game->getMap())[0].size());
-    updatePositionOnMap(&(game->getMap()), oldPosition);
+    // updatePositionOnMap(&(game->getMap()), oldPosition);
 }

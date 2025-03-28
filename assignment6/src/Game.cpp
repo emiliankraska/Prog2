@@ -1,6 +1,14 @@
 #include "Game.hpp"
 #include "PointDot.hpp"
 #include <iostream>
+void Game::update()
+{
+    pacman.move(this);
+    blinky.move(this);
+    inky.move(this);
+    pinky.move(this);
+    clyde.move(this);
+}
 void Game::printMap() const
 {
     for (int y = 0; y < map.size(); y++)

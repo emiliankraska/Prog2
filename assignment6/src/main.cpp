@@ -103,7 +103,7 @@ int main(int /*argc*/, char ** /*argv*/)
         }
 
         // Set the score
-        ui.setScore(12345); // <-- Pass correct value to the setter
+        // <-- Pass correct value to the setter
 
         // Set the amount of lives
         ui.setLives(3); // <-- Pass correct value to the setter
@@ -124,7 +124,7 @@ int main(int /*argc*/, char ** /*argv*/)
                 objects.push_back(*obj); // Dereference pointer and copy object
             }
         }
-
+        ui.setScore(game.getScore());
         ui.update(objects);
 
         while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout))

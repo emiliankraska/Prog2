@@ -42,7 +42,7 @@ void Game::addDots()
 }
 void Game::removeDot(int x, int y)
 {
-    for (auto it = objectList.begin(); it != objectList.end();)
+    for (auto it = objectList.begin(); it != objectList.end(); ++it)
     {
         // Check if it's a dot and matches the coordinates
         if (((*it)->getType() == Type::DOT) && ((*it)->getPosition().x == x && (*it)->getPosition().y == y))
@@ -50,14 +50,13 @@ void Game::removeDot(int x, int y)
             std::cout << "Dot found at (" << x << ", " << y << ")" << std::endl;
 
             // Delete the object and erase from the list
-            delete *it;                // Free memory if allocated dynamically
-            it = objectList.erase(it); // Erase the element and update the iterator
-            map[y][x] = 0;             // Clear the map
+            delete *it;           // Free memory if allocated dynamically
+            objectList.erase(it); // Erase the element and update the iterator
+            map[y][x] = 0;        // Clear the map
 
             std::cout << "Dot removed at (" << x << ", " << y << ")" << std::endl;
 
             break; // Stop after removing the dot
         }
-        ++it;
     }
 }

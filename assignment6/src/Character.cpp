@@ -124,7 +124,7 @@ void Character::move(Game *game)
         {
             if (game->getMap()[x - 1][y] == 2)
             {
-                std::cout << "Calling remove dot" << std::endl;
+                std::cout << "Calling remove Dot" << std::endl;
                 game->removeDot(x - 1, y);
             }
             setPosition(x - 1, y);

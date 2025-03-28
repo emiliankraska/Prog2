@@ -22,9 +22,10 @@ public:
 
     virtual void move(std::vector<std::vector<int>> *);                     // Moves one tile in current facing direction, needs map input
     void updatePositionOnMap(std::vector<std::vector<int>> *, Point) const; //
+    void setPositionFromDir(int);
 
-private:
     bool isMoveColliding(const std::vector<std::vector<int>> *) const;
+private:
 };
 
 #endif

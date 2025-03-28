@@ -6,6 +6,7 @@
 #include <vector>
 #include "pacman.hpp"
 #include "Game.hpp"
+#include "Ghosts.hpp"
 
 /// Callback function to update the game state.
 ///
@@ -30,6 +31,10 @@ int main(int /*argc*/, char ** /*argv*/)
 #include "board.def"
     }};
 
+    std::vector<std::vector<int>> ghostMap = {{
+#include "board.def"
+    }};
+
     // Create a new ui object
     Game game(map);
     UI ui(map); // <-- use map from your game objects.
@@ -40,6 +45,13 @@ int main(int /*argc*/, char ** /*argv*/)
 
     // Example object, this can be removed later
     Pacman pacman(1, 1, PACMAN, DOWN);
+    Blinky blinky(12, 13, Direction::UP, &pacman);
+    Pinky pinky(13, 13, Direction::UP, &pacman);
+    Inky inky(14, 13, Direction::UP, &pacman);
+    Clyde clyde(15, 13, Direction::UP, &pacman);
+
+    // SOME TESTING
+    
 
     // Call game init code here
 
@@ -67,18 +79,34 @@ int main(int /*argc*/, char ** /*argv*/)
                 case SDLK_LEFT: // YOUR CODE HERE
                     pacman.setDir(LEFT);
                     pacman.move(&map);
+                    blinky.move(&ghostMap);
+                    pinky.move(&ghostMap);
+                    inky.move(&ghostMap);
+                    clyde.move(&ghostMap);
                     break;
                 case SDLK_RIGHT: // YOUR CODE HERE
                     pacman.setDir(RIGHT);
                     pacman.move(&map);
+                    blinky.move(&ghostMap);
+                    pinky.move(&ghostMap);
+                    inky.move(&ghostMap);
+                    clyde.move(&ghostMap);
                     break;
                 case SDLK_UP: // YOUR CODE HERE
                     pacman.setDir(UP);
                     pacman.move(&map);
+                    blinky.move(&ghostMap);
+                    pinky.move(&ghostMap);
+                    inky.move(&ghostMap);
+                    clyde.move(&ghostMap);
                     break;
                 case SDLK_DOWN: // YOUR CODE HERE
                     pacman.setDir(DOWN);
                     pacman.move(&map);
+                    blinky.move(&ghostMap);
+                    pinky.move(&ghostMap);
+                    inky.move(&ghostMap);
+                    clyde.move(&ghostMap);
                     break;
                 case SDLK_ESCAPE:
                     quit = true;
@@ -94,7 +122,8 @@ int main(int /*argc*/, char ** /*argv*/)
         ui.setLives(3); // <-- Pass correct value to the setter
 
         // Render the scene
-        std::vector<Character> objects = {pacman};
+        std::vector<Character> objects = {pacman, blinky, pinky, inky, clyde};
+
         // ^-- Your code should provide this vector somehow (e.g.
         // game->getStructs())
         ui.update(objects);

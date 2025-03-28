@@ -54,14 +54,14 @@ bool Character::isMoveColliding(const std::vector<std::vector<int>>* map) const 
 
     // For UP and DOWN we can simply check, since we can not go over border on top and bottom
     case UP:
-        if ((*map)[y - 1][x] == 0) {
-            return false;
-        } return true;
+        if ((*map)[y - 1][x] == 1) {
+            return true;
+        } return false;
 
     case DOWN:
-        if ((*map)[y + 1][x] == 0) {
-            return false;
-        } return true;
+        if ((*map)[y + 1][x] == 1) {
+            return true;
+        } return false;
 
     // For right and left, we have to be more careful, and also check over the border, depending on our position
     case RIGHT:
@@ -70,9 +70,9 @@ bool Character::isMoveColliding(const std::vector<std::vector<int>>* map) const 
         }
 
         // Normal checking on the map
-        if ((*map)[y][x + 1] == 0) {
-            return false;
-        } return true;
+        if ((*map)[y][x + 1] == 1) {
+            return true;
+        } return false;
 
     case LEFT:
         if (x == 0) {       // If we are all the way left, we are guaranteed to be allowed to move left
@@ -80,9 +80,9 @@ bool Character::isMoveColliding(const std::vector<std::vector<int>>* map) const 
         }
 
         // Normal checking on the map
-        if ((*map)[y][x - 1] == 0) {
-            return false;
-        } return true;
+        if ((*map)[y][x - 1] == 1) {
+            return true;
+        } return false;
 
     default:
         std::cout << "Error in handling direction. Direction is: " << dir << ", which resulted in error." << std::endl; 
@@ -96,14 +96,7 @@ void Character::updatePositionOnMap(std::vector<std::vector<int>>* map, Point ol
     (*map)[y][x] = getType();
 }
 
-void Character::move(std::vector<std::vector<int>>* map) {
-    // We need to store old position so we can remove ourselves from the map
-    Point oldPosition(x, y);
-
-    if (isMoveColliding(map)) {     // If move collides, we can not move, do nothing
-        return;
-    }
-
+void Character::setPositionFromDir(int mapSize) {
     switch (dir)
     {
     case UP:
@@ -115,7 +108,7 @@ void Character::move(std::vector<std::vector<int>>* map) {
         break;
     
     case RIGHT:
-        if (x == (*map)[0].size() - 1) {        // End of map reached, skip to other side
+        if (x ==  mapSize- 1) {        // End of map reached, skip to other side
             setPosition(0, y);
         } else {
         setPosition(x + 1, y);
@@ -124,7 +117,7 @@ void Character::move(std::vector<std::vector<int>>* map) {
 
     case LEFT:
         if (x == 0) {           // End of the map reached, skip to other side
-            setPosition((*map)[0].size() - 1, y);
+            setPosition(mapSize - 1, y);
         } else {
         setPosition(x - 1, y);
         }
@@ -133,6 +126,16 @@ void Character::move(std::vector<std::vector<int>>* map) {
     default: // We do not need error message here, will get it in isMoveColliding() function
         break;
     }
+}
 
+void Character::move(std::vector<std::vector<int>>* map) {
+    // We need to store old position so we can remove ourselves from the map
+    Point oldPosition(x, y);
+
+    if (isMoveColliding(map)) {     // If move collides, we can not move, do nothing
+        return;
+    }
+
+    setPositionFromDir((*map)[0].size());
     updatePositionOnMap(map, oldPosition);
 }

@@ -15,9 +15,9 @@ public:
         objectList.push_back(&pacman); // Store Pacman pointer in objectList
     }
 
-    void update() { pacman.move(&map); } // Game update logic
-
-    const std::vector<std::vector<int>> &getMap() const { return map; }
+    void update() { pacman.move(this); } // Game update logic
+    void printMap() const;
+    std::vector<std::vector<int>> &getMap() { return map; }
     void setMap(const std::vector<std::vector<int>> &newMap) { map = newMap; }
     void removeDot(int x, int y);
     std::vector<GameObjectStruct *> &getObjectList() { return objectList; }

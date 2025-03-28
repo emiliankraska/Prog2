@@ -62,19 +62,19 @@ bool Character::isMoveColliding(const std::vector<std::vector<int>> *map) const
     }
 }
 
-void Character::updatePositionOnMap(std::vector<std::vector<int>> *map, Point oldPosition) const
-{
-    // We change old position to 0, setting it back to nothing
-    (*map)[oldPosition.y][oldPosition.x] = 0;
-    (*map)[y][x] = getType();
-}
+// void Character::updatePositionOnMap(std::vector<std::vector<int>> *map, Point oldPosition) const
+// {
+//     // We change old position to 0, setting it back to nothing
+//     //(*map)[oldPosition.y][oldPosition.x] = 0;
+//     (*map)[y][x] = 0;
+// }
 
-void Character::move(std::vector<std::vector<int>> *map)
+void Character::move(Game *game)
 {
     // We need to store old position so we can remove ourselves from the map
     Point oldPosition(x, y);
 
-    if (isMoveColliding(map))
+    if (isMoveColliding(&(game->getMap())))
     { // If move collides, we can not move, do nothing
         return;
     }
@@ -82,25 +82,35 @@ void Character::move(std::vector<std::vector<int>> *map)
     switch (dir)
     {
     case UP:
-        if ((*map)[x][y - 1] == 2)
+        if (game->getMap()[x][y - 1] == 2)
         {
             std::cout << "Dot here!" << std::endl;
-            Game::removeDot(x, y);
+            game->removeDot(x, y - 1);
         }
         setPosition(x, y - 1);
         break;
 
     case DOWN:
+        if (game->getMap()[x][y + 1] == 2)
+        {
+            std::cout << "Dot here!" << std::endl;
+            game->removeDot(x, y + 1);
+        }
         setPosition(x, y + 1);
         break;
 
     case RIGHT:
-        if (x == (*map)[0].size() - 1)
+        if (x == game->getMap()[0].size() - 1)
         { // End of map reached, skip to other side
             setPosition(0, y);
         }
         else
         {
+            if (game->getMap()[x + 1][y] == 2)
+            {
+                std::cout << "Dot here!" << std::endl;
+                game->removeDot(x + 1, y);
+            }
             setPosition(x + 1, y);
         }
         break;
@@ -108,10 +118,15 @@ void Character::move(std::vector<std::vector<int>> *map)
     case LEFT:
         if (x == 0)
         { // End of the map reached, skip to other side
-            setPosition((*map)[0].size() - 1, y);
+            setPosition(game->getMap()[0].size() - 1, y);
         }
         else
         {
+            if (game->getMap()[x - 1][y] == 2)
+            {
+                std::cout << "Calling remove dot" << std::endl;
+                game->removeDot(x - 1, y);
+            }
             setPosition(x - 1, y);
         }
         break;
@@ -120,5 +135,5 @@ void Character::move(std::vector<std::vector<int>> *map)
         break;
     }
 
-    updatePositionOnMap(map, oldPosition);
+    // updatePositionOnMap(&(game->getMap()), oldPosition);
 }

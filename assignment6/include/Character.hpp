@@ -3,14 +3,15 @@
 
 #include <vector>
 #include "GameObjectStruct.hpp"
-/// These enum values denote the sprite sets available for items on screen.
 
+/// These enum values denote the sprite sets available for items on screen.
+class Game;
 class Character : public GameObjectStruct
 {
 public:
     Character(int, int, Type, Direction);
 
-    virtual void move(std::vector<std::vector<int>> *);                     // Moves one tile in current facing direction, needs map input
+    virtual void move(Game *);                                              // Moves one tile in current facing direction, needs map input
     void updatePositionOnMap(std::vector<std::vector<int>> *, Point) const; //
 
 private:

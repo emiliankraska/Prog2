@@ -21,6 +21,10 @@ Uint32 gameUpdate(Uint32 interval, void *param)
 
     Game *state = static_cast<Game *>(param);
     state->update();
+    std::cout << "Number of objects:" << (state->getObjectList()).size() << std::endl;
+    state->printMap();
+    std::cout << "--------------------------------------------------------------------------------" << std::endl;
+    std::cout << "--------------------------------------------------------------------------------" << std::endl;
     return interval;
 }
 
@@ -37,7 +41,7 @@ int main(int /*argc*/, char ** /*argv*/)
 
     // Start timer for game update, call this function every 100 ms.
     SDL_TimerID timer_id =
-        SDL_AddTimer(50, gameUpdate, static_cast<void *>(&game));
+        SDL_AddTimer(500, gameUpdate, static_cast<void *>(&game));
 
     // Example object, this can be removed later
     game.addDots();
@@ -109,6 +113,7 @@ int main(int /*argc*/, char ** /*argv*/)
             if (obj)
             {
                 // Check for null pointers
+
                 objects.push_back(*obj); // Dereference pointer and copy object
             }
         }

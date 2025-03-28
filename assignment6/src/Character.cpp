@@ -62,12 +62,12 @@ bool Character::isMoveColliding(const std::vector<std::vector<int>> *map) const
     }
 }
 
-// void Character::updatePositionOnMap(std::vector<std::vector<int>> *map, Point oldPosition) const
-// {
-//     // We change old position to 0, setting it back to nothing
-//     //(*map)[oldPosition.y][oldPosition.x] = 0;
-//     (*map)[y][x] = 0;
-// }
+void Character::updatePositionOnMap(std::vector<std::vector<int>> *map, Point oldPosition) const
+{
+    // We change old position to 0, setting it back to nothing
+    //(*map)[oldPosition.y][oldPosition.x] = 0;
+    (*map)[y][x] = 0;
+}
 
 // void Character::setPositionFromDir(int mapSize)
 // {

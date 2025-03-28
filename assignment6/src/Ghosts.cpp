@@ -1,5 +1,6 @@
 #include "Ghosts.hpp"
 #include <ctime>
+#include "Game.hpp"
 #include <bits/stdc++.h>
 
 Ghost::Ghost(int n_x, int n_y, Type n_type, Direction n_dir, Character *n_target) : Character(n_x, n_y, n_type, n_dir)
@@ -27,7 +28,7 @@ Direction Ghost::findMoveDirection(std::vector<std::vector<int>> *map)
     return Direction::UP;
 }
 
-void Ghost::move(Ghost *game)
+void Ghost::move(Game *game)
 {
     dir = findMoveDirection(&(game->getMap())); // Finding direction from overwritten function for every ghost
     if (isMoveColliding(&(game->getMap())))

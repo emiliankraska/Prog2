@@ -71,6 +71,8 @@ public:
     void setInitialized(bool n_initialized) { initialized = n_initialized; };
     bool getInitialized() const { return initialized; };
 
+    void resetInitializeRoute();
+
 private:
     std::queue<Direction> initializationRoute;
     std::vector<Point> patrolRoute;

@@ -104,6 +104,14 @@ Pinky::Pinky(int n_x, int n_y, Direction n_dir, Character *n_target) : Ghost(n_x
     setStartingPosition(Point(n_x, n_y));
 }
 
+void Pinky::resetInitializeRoute()
+{
+    while (getInitialRouteLength() > 0)
+    {
+        initializationRoute.pop();
+    }
+}
+
 // Function to generate the patrol route taken by Pinky
 void Pinky::doInitialize()
 {
@@ -115,6 +123,9 @@ void Pinky::doInitialize()
 
     // Setting all corner positions, which we will return from this function
     setPatrolRoute({Point(9, 11), Point(9, 15), Point(18, 15), Point(18, 11)});
+
+    // Deleting old entries if they exist
+    resetInitializeRoute();
 
     // Generating initializationRoute variable, which is a constant
     pushInitializationRoute(Direction::UP);
@@ -202,6 +213,8 @@ void Inky::doInitialize()
 {
     // Setting patrol route corners
     setPatrolRoute({Point(6, 5), Point(21, 5), Point(21, 21), Point(6, 21)});
+
+    resetInitializeRoute();
 
     pushInitializationRoute(Direction::UP);
     pushInitializationRoute(Direction::UP);

@@ -69,6 +69,103 @@ bool Character::isMoveColliding(const std::vector<std::vector<int>> *map) const
 //     (*map)[y][x] = 0;
 // }
 
+// void Character::setPositionFromDir(int mapSize)
+// {
+//     switch (dir)
+//     {
+//     case UP:
+//         if (game->getMap()[x][y - 1] == 2)
+//         {
+//             std::cout << "Dot here!" << std::endl;
+//             game->removeDot(x, y - 1);
+//         }
+//         setPosition(x, y - 1);
+//         break;
+
+//     case DOWN:
+//         if (game->getMap()[x][y + 1] == 2)
+//         {
+//             std::cout << "Dot here!" << std::endl;
+//             game->removeDot(x, y + 1);
+//         }
+//         setPosition(x, y + 1);
+//         break;
+
+//     case RIGHT:
+//         if (x == game->getMap()[0].size() - 1)
+//         { // End of map reached, skip to other side
+//             setPosition(0, y);
+//         }
+//         else
+//         {
+//             if (game->getMap()[x + 1][y] == 2)
+//             {
+//                 std::cout << "Dot here!" << std::endl;
+//                 game->removeDot(x + 1, y);
+//             }
+//             setPosition(x + 1, y);
+//         }
+//         break;
+
+//     case LEFT:
+//         if (x == 0)
+//         { // End of the map reached, skip to other side
+//             setPosition(game->getMap()[0].size() - 1, y);
+//         }
+//         else
+//         {
+//             if (game->getMap()[x - 1][y] == 2)
+//             {
+//                 std::cout << "Calling remove Dot" << std::endl;
+//                 game->removeDot(x - 1, y);
+//             }
+//             setPosition(x - 1, y);
+//         }
+//         break;
+
+//     default: // We do not need error message here, will get it in isMoveColliding() function
+//         break;
+//     }
+// }
+void Character::setPositionFromDir(int mapSize)
+{
+    switch (dir)
+    {
+    case UP:
+        setPosition(x, y - 1);
+        break;
+
+    case DOWN:
+        setPosition(x, y + 1);
+        break;
+
+    case RIGHT:
+        if (x == mapSize - 1)
+        { // End of map reached, skip to other side
+            setPosition(0, y);
+        }
+        else
+        {
+            setPosition(x + 1, y);
+        }
+        break;
+
+    case LEFT:
+        if (x == 0)
+        { // End of the map reached, skip to other side
+            setPosition(mapSize - 1, y);
+        }
+        else
+        {
+            setPosition(x - 1, y);
+        }
+        break;
+
+    default: // We do not need error message here, will get it in isMoveColliding() function
+        break;
+    }
+}
+
 void Character::move(Game *game)
 {
     // We need to store old position so we can remove ourselves from the map
@@ -79,61 +176,6 @@ void Character::move(Game *game)
         return;
     }
 
-    switch (dir)
-    {
-    case UP:
-        if (game->getMap()[x][y - 1] == 2)
-        {
-            std::cout << "Dot here!" << std::endl;
-            game->removeDot(x, y - 1);
-        }
-        setPosition(x, y - 1);
-        break;
-
-    case DOWN:
-        if (game->getMap()[x][y + 1] == 2)
-        {
-            std::cout << "Dot here!" << std::endl;
-            game->removeDot(x, y + 1);
-        }
-        setPosition(x, y + 1);
-        break;
-
-    case RIGHT:
-        if (x == game->getMap()[0].size() - 1)
-        { // End of map reached, skip to other side
-            setPosition(0, y);
-        }
-        else
-        {
-            if (game->getMap()[x + 1][y] == 2)
-            {
-                std::cout << "Dot here!" << std::endl;
-                game->removeDot(x + 1, y);
-            }
-            setPosition(x + 1, y);
-        }
-        break;
-
-    case LEFT:
-        if (x == 0)
-        { // End of the map reached, skip to other side
-            setPosition(game->getMap()[0].size() - 1, y);
-        }
-        else
-        {
-            if (game->getMap()[x - 1][y] == 2)
-            {
-                std::cout << "Calling remove Dot" << std::endl;
-                game->removeDot(x - 1, y);
-            }
-            setPosition(x - 1, y);
-        }
-        break;
-
-    default: // We do not need error message here, will get it in isMoveColliding() function
-        break;
-    }
-
-    // updatePositionOnMap(&(game->getMap()), oldPosition);
+    setPositionFromDir((game->getMap())[0].size());
+    updatePositionOnMap(&(game->getMap()), oldPosition);
 }

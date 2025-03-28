@@ -7,6 +7,7 @@
 #include "pacman.hpp"
 #include "Game.hpp"
 #include <iostream>
+#include "Ghosts.hpp"
 
 /// Callback function to update the game state.
 ///
@@ -35,6 +36,10 @@ int main(int /*argc*/, char ** /*argv*/)
 #include "board.def"
     }};
 
+    std::vector<std::vector<int>> ghostMap = {{
+#include "board.def"
+    }};
+
     // Create a new ui object
     Game game(map);
     UI ui(game.getMap()); // <-- use map from your game objects.
@@ -47,6 +52,13 @@ int main(int /*argc*/, char ** /*argv*/)
     game.addDots();
 
     Pacman *pacman = game.getPacman();
+
+    Blinky blinky(12, 13, Direction::UP, pacman);
+    Pinky pinky(13, 13, Direction::UP, pacman);
+    Inky inky(14, 13, Direction::UP, pacman);
+    Clyde clyde(15, 13, Direction::UP, pacman);
+
+    // SOME TESTING
 
     // Call game init code here
 

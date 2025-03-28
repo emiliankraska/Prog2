@@ -30,14 +30,14 @@ Direction Ghost::findMoveDirection(std::vector<std::vector<int>> *map)
 
 void Ghost::move(Game *game)
 {
-    dir = findMoveDirection(&(game->getMap())); // Finding direction from overwritten function for every ghost
-    if (isMoveColliding(&(game->getMap())))
+    dir = findMoveDirection(&(game->getGhostMap())); // Finding direction from overwritten function for every ghost
+    if (isMoveColliding(&(game->getGhostMap())))
     { // If move collides with wall, we should just stop
         return;
     }
     Point oldPosition = Point(x, y);                     // Remembering old position
-    setPositionFromDir((game->getMap())[0].size());      // Setting our position from the direction we are facing
-    updatePositionOnMap(&(game->getMap()), oldPosition); // Updating the map position
+    setPositionFromDir((game->getGhostMap())[0].size());      // Setting our position from the direction we are facing
+    updatePositionOnMap(&(game->getGhostMap()), oldPosition); // Updating the map position
 }
 
 // BLINKY -------------------

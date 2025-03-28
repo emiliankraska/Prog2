@@ -22,10 +22,10 @@ Uint32 gameUpdate(Uint32 interval, void *param)
 
     Game *state = static_cast<Game *>(param);
     state->update();
-    std::cout << "Number of objects:" << (state->getObjectList()).size() << std::endl;
-    state->printMap();
-    std::cout << "--------------------------------------------------------------------------------" << std::endl;
-    std::cout << "--------------------------------------------------------------------------------" << std::endl;
+    // std::cout << "Number of objects:" << (state->getObjectList()).size() << std::endl;
+    // state->printMap();
+    // std::cout << "--------------------------------------------------------------------------------" << std::endl;
+    // std::cout << "--------------------------------------------------------------------------------" << std::endl;
     return interval;
 }
 
@@ -96,7 +96,7 @@ int main(int /*argc*/, char ** /*argv*/)
 
                     break;
                 case SDLK_ESCAPE:
-                    quit = true;
+                    game.setQuit(true);
                     break;
                 }
             }
@@ -106,8 +106,8 @@ int main(int /*argc*/, char ** /*argv*/)
         // <-- Pass correct value to the setter
 
         // Set the amount of lives
-        ui.setLives(3); // <-- Pass correct value to the setter
-
+        ui.setLives(game.getLives()); // <-- Pass correct value to the setter
+        quit = game.getQuit();
         // Render the scene
         // std::vector<GameObjectStruct&> objects = {*pacman};
         // std::vector<GameObjectStruct *> objects = game.getObjectList();

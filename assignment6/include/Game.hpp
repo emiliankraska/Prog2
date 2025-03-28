@@ -52,19 +52,10 @@ public:
     }
 
     // Setter for score
-    void setScore(std::uint32_t newScore)
-    {
-        score = newScore;
-    }
-    void addToScore(std::uint32_t points)
-    {
-        score += points;
-        if (score % 1000 == 0)
-        {
-            addFruit();
-        }
-    }
-    void checkColission();
+    void setScore(std::uint32_t);
+    void addToScore(std::uint32_t);
+
+        void checkColission();
     int getLives() { return lives; };
     void setLives(int newLives) { lives = newLives; };
     bool getQuit() { return quit; };

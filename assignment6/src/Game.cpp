@@ -3,6 +3,18 @@
 #include <iostream>
 #include <array>
 #include <algorithm>
+void Game::addToScore(std::uint32_t points)
+{
+    score += points;
+    if (score % 1000 == 0)
+    {
+        addFruit();
+    }
+}
+void Game::setScore(std::uint32_t newScore)
+{
+    score = newScore;
+}
 void Game::update()
 {
     generatePositionBuffers();

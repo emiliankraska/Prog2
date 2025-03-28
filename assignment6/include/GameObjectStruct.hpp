@@ -64,6 +64,7 @@ struct Point
         return (this->x != compare.x || this->y != compare.y);
     }
 
+    // Rewriting == to just compare x and y
     bool operator==(Point const compare)
     {
         return (this->x == compare.x && this->y == compare.y);
@@ -75,25 +76,11 @@ struct Point
         return Point(compare.x - this->x, compare.y - this->y);
     }
 
-    Point operator/(double const divide)
-    {
-        return Point(this->x / divide, this->y / divide);
-    }
-
-    double getLength()
-    {
-        return sqrt((this->x * this->x) + (this->y * this->y));
-    }
-
-    Point getUnitVector()
-    {
-        return Point(this->x / this->getLength(), this->y / this->getLength());
-    }
-
+    // Returns the angle between two Points based on their difference vector
     double getAngle(Point target)
     {
-        Point relative = Point(target.x - this->x, target.y - this->y);
-        if (relative.x > -1 && relative.x < 1)
+        Point relative = Point(target.x - this->x, target.y - this->y);         // Finds difference vector between the two points
+        if (relative.x > -1 && relative.x < 1)          // Since we use atan2(y/x), we need to know if x != 0. Implemented using x > -1 and x < 1 
         {
             // std::cout << "Got small x with value: " << relative.x << " with sign: " << relative.y/abs(relative.y) << std::endl;
             if (relative.y / abs(relative.y) < 0)
@@ -108,7 +95,7 @@ struct Point
             }
         }
         // std::cout << "Got angle: " << atan2(relative.y, relative.x) << " for coordinates : (" << relative.x << ", " << relative.y << ")" << std::endl;
-        // No edge case, we just return the angle from tan
+        // No edge case, we just return the angle from atan2
         return atan2(relative.y, relative.x);
     }
 };

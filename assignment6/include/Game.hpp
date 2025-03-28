@@ -46,16 +46,13 @@ public:
     Pacman *getPacman() { return &pacman; } // Getter for Pacman
     void addFruit();
 
-    std::uint32_t getScore() const
-    {
-        return score;
-    }
+    std::uint32_t getScore() const { return score; }
 
     // Setter for score
     void setScore(std::uint32_t);
     void addToScore(std::uint32_t);
 
-        void checkColission();
+    void checkColission();
     int getLives() { return lives; };
     void setLives(int newLives) { lives = newLives; };
     bool getQuit() { return quit; };

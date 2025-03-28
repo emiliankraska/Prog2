@@ -150,7 +150,7 @@ void Game::checkColission()
 
             if (ghostCurrent->getPosition() == getPacmanPositionBuffer())
             {
-                setLives(getLives() - 1);
+                deathReset();
                 return;
             }
         }
@@ -162,8 +162,34 @@ void Game::checkColission()
         {
             if ((*it)->getPosition() == getPacman()->getPosition())
             {
-                setLives(getLives() - 1);
+                deathReset();
+                return;
             }
         }
     }
+}
+
+void Game::deathReset()
+{
+    setLives(getLives() - 1);
+    if (getLives() <= 0)
+    {
+        setQuit(true);
+        std::cout << "You died! Closing game! \n" << "Your final score was: " << std::endl;     /// todo : add score here!!!!
+        return;
+    }
+
+    // We are not completely dead yet, so we need to reset.
+    getPacman()->setPosition(1, 1);
+    blinky.setPosition(blinky.getStartingPosition());
+    clyde.setPosition(clyde.getStartingPosition());
+
+    // For Pinky and Inky, we need to also set initialize to true
+    pinky.setInitialized(false);
+    pinky.setPosition(pinky.getStartingPosition());
+    pinky.doInitialize();
+
+    inky.setInitialized(false);
+    inky.setPosition(inky.getStartingPosition());
+    inky.doInitialize();
 }
